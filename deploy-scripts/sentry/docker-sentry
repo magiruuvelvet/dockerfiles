@@ -3,6 +3,9 @@
 # Sentry Docker Setup Script (https://hub.docker.com/_/sentry/)
 #
 
+# only for local deployments!
+# script doesn't take any arguments
+
 # == MODIFY THOSE VARIABLES
 
 # network namespace
