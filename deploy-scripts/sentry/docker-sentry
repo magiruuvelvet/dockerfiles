@@ -9,7 +9,7 @@
 # == MODIFY THOSE VARIABLES
 
 # network namespace
-DOCKER_NETWORK=sentry1
+DOCKER_NETWORK=docker1
 
 # container names
 SENTRY_NAME="sentry"
@@ -26,7 +26,7 @@ VOLUME_CRON="/docker/volumes/sentry/cron"
 VOLUME_WORKER="/docker/volumes/sentry/worker"
 
 # static ip addresses
-_SUBNET="172.19.0"
+_SUBNET="172.18.1"
 REDIS_IP="$_SUBNET.36"
 POSTGRESQL_IP="$_SUBNET.37"
 SENTRY_IP="$_SUBNET.40"
