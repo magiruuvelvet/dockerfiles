@@ -1,0 +1,25 @@
+#!/bin/sh
+
+unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+
+# Input Method
+export GTK_IM_MODULE=fcitx
+export GTK2_IM_MODULE=fcitx
+export GTK3_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export QT4_IM_MODULE=fcitx
+export QT5_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+
+# Qt 5 Platform Theme
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+if [ -x /etc/X11/xinit/xinitrc ]; then
+  exec /etc/X11/xinit/xinitrc
+fi
+if [ -f /etc/X11/xinit/xinitrc ]; then
+  exec sh /etc/X11/xinit/xinitrc
+fi
+
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
