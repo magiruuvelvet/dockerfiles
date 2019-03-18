@@ -3,6 +3,10 @@
 # Sentry Docker Setup Script (https://hub.docker.com/_/sentry/)
 #
 
+# THIS SCRIPT IS DEPRECATED!
+# just keeping it for reference
+# use the new docker-compose.yml instead
+
 # only for local deployments!
 # script doesn't take any arguments
 
@@ -96,7 +100,7 @@ docker run -d --net "$DOCKER_NETWORK" --ip "$SENTRY_IP" \
     -e SENTRY_WEB_PORT=9000 \
     -e SENTRY_REDIS_HOST="$REDIS_IP" \
     -e SENTRY_POSTGRES_HOST="$POSTGRESQL_IP" \
-    -e SENTRY_DB_USER=$POSTGRESQL_USER \
+    -e SENTRY_DB_USER="$POSTGRESQL_USER" \
     -e SENTRY_DB_PASSWORD="$POSTGRESQL_PASSWORD" \
     sentry:latest
 
@@ -108,7 +112,7 @@ docker run -d --net "$DOCKER_NETWORK" --ip "$SENTRY_CRON_IP" \
     -e SENTRY_SECRET_KEY="$SENTRY_SECRET_KEY" \
     -e SENTRY_REDIS_HOST="$REDIS_IP" \
     -e SENTRY_POSTGRES_HOST="$POSTGRESQL_IP" \
-    -e SENTRY_DB_USER=$POSTGRESQL_USER \
+    -e SENTRY_DB_USER="$POSTGRESQL_USER" \
     -e SENTRY_DB_PASSWORD="$POSTGRESQL_PASSWORD" \
     sentry:latest run cron
 
@@ -120,7 +124,7 @@ docker run -d --net "$DOCKER_NETWORK" --ip "$SENTRY_WORKER_IP" \
     -e SENTRY_SECRET_KEY="$SENTRY_SECRET_KEY" \
     -e SENTRY_REDIS_HOST="$REDIS_IP" \
     -e SENTRY_POSTGRES_HOST="$POSTGRESQL_IP" \
-    -e SENTRY_DB_USER=$POSTGRESQL_USER \
+    -e SENTRY_DB_USER="$POSTGRESQL_USER" \
     -e SENTRY_DB_PASSWORD="$POSTGRESQL_PASSWORD" \
     sentry:latest run worker
 
