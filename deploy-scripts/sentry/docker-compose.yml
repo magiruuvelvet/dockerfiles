@@ -1,0 +1,67 @@
+# modify network name and ip addresses as needed
+
+version: "3.7"
+services:
+
+  redis:
+    image: redis:alpine
+    container_name: sentry-redis
+    volumes:
+      - /docker/volumes/sentry/redis:/data
+    networks:
+      default:
+        ipv4_address: 172.18.1.36
+
+  postgres:
+    image: postgres:alpine
+    container_name: sentry-postgres
+    volumes:
+      - /docker/volumes/sentry/database:/var/lib/postgresql/data
+    env_file:
+      - ./database.env
+    networks:
+      default:
+        ipv4_address: 172.18.1.37
+
+  sentry:
+    image: sentry:latest
+    container_name: sentry
+    volumes:
+      - /docker/volumes/sentry/data:/var/lib/sentry/files
+    env_file:
+      - ./sentry.env
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      default:
+        ipv4_address: 172.18.1.40
+
+  sentry-cron:
+    image: sentry:latest
+    container_name: sentry-cron
+    command: run cron
+    env_file:
+      - ./sentry.env
+    depends_on:
+      - sentry
+    networks:
+      default:
+        ipv4_address: 172.18.1.200
+
+  sentry-worker:
+    image: sentry:latest
+    container_name: sentry-worker
+    command: run worker
+    env_file:
+      - ./sentry.env
+    depends_on:
+      - sentry
+    networks:
+      default:
+        ipv4_address: 172.18.1.201
+
+networks:
+  default:
+    external:
+      name: docker1
