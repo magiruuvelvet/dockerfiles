@@ -69,3 +69,14 @@ remove container after exit:
 ```sh
 docker run --rm -it --name archlinux-sandbox archlinux/base:latest /bin/bash
 ```
+
+
+## -- overwrite default entry point during run
+
+```sh
+docker run --rm -it --entrypoint=/bin/sh imagename:tag
+```
+
+This can be useful for debugging an image or when you need to run other commands
+inside the image, but the default entry point forbids running other commands
+(example: Matrix Synapse to migrate the SQLite database to PostgreSQL).
