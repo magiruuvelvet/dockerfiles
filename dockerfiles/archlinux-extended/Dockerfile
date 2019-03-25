@@ -28,7 +28,7 @@ COPY run.sh /archlinux-extended.sh
 RUN chmod +x /archlinux-extended.sh
 
 # update system and install software
-RUN pacman -Syyu coreutils \
+RUN yes | pacman -Syyu coreutils \
     iputils bind-tools procps-ng sudo git grep which awk nano wget fakeroot \
     openvpn mesa mesa-demos xorg-server libglvnd tigervnc xorg-xinit xorg-xrdb xorg-xsetroot \
     i3-wm i3status i3lock \
@@ -37,8 +37,7 @@ RUN pacman -Syyu coreutils \
     konsole phonon-qt5-gstreamer dbus mpv \
     fontconfig noto-fonts noto-fonts-cjk noto-fonts-emoji wqy-microhei wqy-microhei-lite wqy-zenhei \
     electron gconf libxss rtmpdump openssl-1.0 libcurl-gnutls \
-    clang \
-    --noconfirm
+    clang
 
 # generate machine-id file
 RUN dbus-uuidgen > /etc/machine-id
