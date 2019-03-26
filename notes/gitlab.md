@@ -7,6 +7,7 @@ GitLab without Docker volumes; all data is bind mounted to the host filesystem.
 ```sh
 docker run -d --net docker1 --ip 172.18.0.30 \
     --name gitlab \
+    --restart unless-stopped \
     -v /docker/volumes/gitlab/etc:/etc/gitlab \
     -v /docker/volumes/gitlab/var:/var/opt/gitlab \
     -v /docker/volumes/gitlab/log:/var/log/gitlab \
