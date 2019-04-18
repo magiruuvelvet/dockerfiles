@@ -6,6 +6,7 @@ services:
   redis:
     image: redis:alpine
     container_name: sentry-redis
+    restart: unless-stopped
     volumes:
       - /docker/volumes/sentry/redis:/data
     networks:
@@ -15,6 +16,7 @@ services:
   postgres:
     image: postgres:alpine
     container_name: sentry-postgres
+    restart: unless-stopped
     volumes:
       - /docker/volumes/sentry/database:/var/lib/postgresql/data
     env_file:
@@ -26,6 +28,7 @@ services:
   sentry:
     image: sentry:latest
     container_name: sentry
+    restart: unless-stopped
     volumes:
       - /docker/volumes/sentry/data:/var/lib/sentry/files
     env_file:
@@ -37,10 +40,33 @@ services:
       default:
         ipv4_address: 172.18.1.40
 
+  # uncomment this and run "docker-compose up sentry-migrate-db"
+  # when upgrading sentry to a new version
+  #
+  #sentry-migrate-db:
+    #image: sentry:latest
+    #container_name: sentry-migrate-db
+    #command: upgrade
+    #stdin_open: true
+    #tty: true
+    #volumes:
+      #- /docker/volumes/sentry/data:/var/lib/sentry/files
+    #env_file:
+      #- ./sentry.env
+    #depends_on:
+      #- redis
+      #- postgres
+    #networks:
+      #default:
+        #ipv4_address: 172.18.1.199
+
   sentry-cron:
     image: sentry:latest
     container_name: sentry-cron
+    restart: unless-stopped
     command: run cron
+    volumes:
+      - /docker/volumes/sentry/data-cron:/var/lib/sentry/files
     env_file:
       - ./sentry.env
     depends_on:
@@ -52,7 +78,10 @@ services:
   sentry-worker:
     image: sentry:latest
     container_name: sentry-worker
+    restart: unless-stopped
     command: run worker
+    volumes:
+      - /docker/volumes/sentry/data-worker:/var/lib/sentry/files
     env_file:
       - ./sentry.env
     depends_on:
